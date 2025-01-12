@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Alert, Button, Modal } from 'react-bootstrap';
 
 const token =
   'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzYwMGRkNTBlYTI4NjAwMTUyOGI5NTgiLCJpYXQiOjE3MzY2NzcyMjksImV4cCI6MTczNzg4NjgyOX0.zLzKm3iXeO3hZs1lPOOWUq6Ap9M1YDAS06cSDSgRtm8';
@@ -7,6 +7,7 @@ const token =
 class SingleComment extends Component {
   state = {
     isError: false,
+    removed: false,
   };
 
   handleDelete = () => {
@@ -25,18 +26,53 @@ class SingleComment extends Component {
           throw new Error('Impossibile rimuovere il commento');
         }
         console.log('Commento rimosso con successo');
+        this.setState({
+          isError: false,
+          removed: true,
+        });
       } catch (error) {
         console.log('ERROR', error);
+        this.setState({
+          isError: true,
+          removed: false,
+        });
       }
     };
 
     deleteComment(this.props.id);
   };
 
+  handleClose = () =>
+    this.setState({ removed: false }, () => {
+      this.props.updateComments();
+    });
+
   render() {
     return (
       <>
         <p>{this.props.comment}</p>
+        {this.state.isError && (
+          <div className='text-center'>
+            <Alert variant='danger'>
+              Si è verificato un errore <br /> Impossibile eliminare il Commento
+            </Alert>
+          </div>
+        )}
+
+        {this.state.removed && (
+          <Modal show={this.state.removed} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Commento rimosso con successo</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Footer>
+              <Button variant='secondary' onClick={this.handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
+
         <Button variant='danger' onClick={this.handleDelete}>
           <svg
             xmlns='http://www.w3.org/2000/svg'

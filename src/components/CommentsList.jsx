@@ -1,6 +1,7 @@
 import SingleComment from './SingleComment';
 
 const CommentsList = (props) => {
+  const updateComments = props.updateComments;
   return (
     <>
       {props.comments.map((singleComment) => {
@@ -9,6 +10,7 @@ const CommentsList = (props) => {
             <SingleComment
               comment={singleComment.comment}
               id={singleComment._id}
+              updateComments={updateComments}
             />
           </li>
         );

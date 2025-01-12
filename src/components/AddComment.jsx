@@ -53,6 +53,10 @@ class AddComment extends Component {
     }
   };
 
+  handleComments = () => {
+    this.props.updateComments();
+  };
+
   render() {
     return (
       <>
@@ -116,7 +120,7 @@ class AddComment extends Component {
             </Form.Select>
           </Form.Group>
 
-          <Button variant='success' type='submit'>
+          <Button variant='success' type='submit' onClick={this.handleComments}>
             Lascia un commento
           </Button>
         </Form>
