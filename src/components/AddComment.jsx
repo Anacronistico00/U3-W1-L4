@@ -9,6 +9,7 @@ const token =
 const initialState = {
   comment: '',
   rate: 1,
+  author: '',
 };
 
 class AddComment extends Component {
@@ -25,7 +26,7 @@ class AddComment extends Component {
 
   postComment = async () => {
     try {
-      const response = await fetch(URL + this.props.asin, {
+      const response = await fetch(URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +71,28 @@ class AddComment extends Component {
                   },
                 });
               }}
+              placeholder='Lascia un commento..'
+              required
             ></Form.Control>
+          </Form.Group>
+          <Form.Group className='mb-3'>
+            <Form.Label>Il tuo nome</Form.Label>
+            <Form.Control
+              // Collego il valore dell'input allo stato
+              value={this.state.comments.author}
+              onChange={(e) => {
+                // ora devo SETTARE lo stato con il valore inserito nel campo input
+                this.setState({
+                  comments: {
+                    ...this.state.comments,
+                    author: e.target.value,
+                  },
+                });
+              }}
+              type='text'
+              placeholder='Mario Rossi'
+              required
+            />
           </Form.Group>
           <Form.Group className='mb-3'>
             <Form.Label>Valutazione</Form.Label>

@@ -6,7 +6,10 @@ const CommentsList = (props) => {
       {props.comments.map((singleComment) => {
         return (
           <li key={singleComment._id}>
-            <SingleComment comment={singleComment.comment} />
+            <SingleComment
+              comment={singleComment.comment}
+              id={singleComment._id}
+            />
           </li>
         );
       })}
